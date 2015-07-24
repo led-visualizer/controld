@@ -7,7 +7,7 @@ int main(int, char **) {
 	while(listenSock) {
 		auto clientSock = listenSock.Accept();
 		controld::Command cmd;
-		cmd << clientSock;
+		clientSock >> cmd;
 		std::cout << "received cmd: " << cmd << std::endl;
 	}
 	return 0;
