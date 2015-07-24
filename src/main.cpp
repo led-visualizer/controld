@@ -1,4 +1,6 @@
 #include <iostream>
+#include <controld/ListenSocket.hpp>
+#include <controld/Command.hpp>
 
 int main(int, char **) {
 	controld::ListenSocket listenSock(controld::Address::Any, controld::Port(1337));
