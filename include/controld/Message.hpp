@@ -7,7 +7,10 @@
 namespace controld {
 	enum class Command : std::uint8_t {
 		None,
-		Something
+		SetRed,
+		SetGreen,
+		SetBlue,
+		SetAll
 	};
 
 	inline std::ostream & operator <<(std::ostream &os, const Command command) {
@@ -15,8 +18,17 @@ namespace controld {
 			case Command::None:
 				os << "None";
 				break;
-			case Command::Something:
-				os << "Something";
+			case Command::SetRed:
+				os << "SetRed";
+				break;
+			case Command::SetGreen:
+				os << "SetGreen";
+				break;
+			case Command::SetBlue:
+				os << "SetBlue";
+				break;
+			case Command::SetAll:
+				os << "SetAll";
 				break;
 			default:
 				os << "Invalid";
@@ -29,7 +41,7 @@ namespace controld {
 	public:
 		Command command;
 
-		Message(Command command = Command::None) : command(command) {}
+		Message(const Command command = Command::None) : command(command) {}
 	};
 
 	inline std::ostream & operator <<(std::ostream &os, const Message &message) {
