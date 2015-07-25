@@ -1,4 +1,5 @@
 CXX=clang++
+CFLAGS=-Iinclude -std=c++11 -Wall -Wextra
 EXECUTABLE=controld
 
 .PHONY: all
@@ -6,7 +7,11 @@ all: build
 
 .PHONY: build
 build:
-	$(CXX) src/main.cpp -o $(EXECUTABLE) -Iinclude -std=c++11 -Wall -Wextra
+	$(CXX) src/main.cpp -o $(EXECUTABLE) $(CFLAGS)
+
+.PHONY: debug
+debug:
+	$(CXX) src/main.cpp -o $(EXECUTABLE) $(CFLAGS) -O0 -g
 
 .PHONY: clean
 clean:
