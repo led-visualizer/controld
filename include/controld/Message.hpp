@@ -39,10 +39,8 @@ namespace controld {
 
 	class Message {
 	public:
-		Command command = Command::None;
 		std::uint16_t intensity[3] = {0, 0, 0};
-
-		Message(const Command command = Command::None) : command(command) {}
+		Command command = Command::None;
 	};
 
 	inline std::ostream & operator <<(std::ostream &os, const Message &message) {
