@@ -8,7 +8,23 @@ int main(int, char **) {
 		auto clientSock = listenSock.Accept();
 		controld::Message message;
 		clientSock >> message;
-		std::cout << "received message: " << message << std::endl;
+		std::cout << message << std::endl;
+		switch(message.command) {
+			case controld::Command::SetRed:
+				std::cerr << "TODO: set red LED intensity" << std::endl;
+				break;
+			case controld::Command::SetGreen:
+				std::cerr << "TODO: set green LED intensity" << std::endl;
+				break;
+			case controld::Command::SetBlue:
+				std::cerr << "TODO: set blue LED intensity" << std::endl;
+				break;
+			case controld::Command::SetAll:
+				std::cerr << "TODO: set all LED intensities" << std::endl;
+				break;
+			default:
+				break;
+		}
 	}
 	return 0;
 }
