@@ -4,9 +4,8 @@
 
 namespace controld {
 	class Port {
-	private:
-		const std::uint16_t portNumber;
 	public:
-		Port(const std::uint16_t portNumber) : portNumber(portNumber) {}
+		const std::uint16_t number;
+		Port(const std::uint16_t number) : number(number) {}
 	};
 }
