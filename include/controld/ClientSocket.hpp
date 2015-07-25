@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <stdexcept>
 #include <netdb.h>
+#include <netinet/tcp.h>
 #include <endian.hpp>
 
 namespace controld {
@@ -10,7 +11,12 @@ namespace controld {
 	private:
 		const int fd;
 	public:
-		ClientSocket(const int fd) : fd(fd) {}
+		ClientSocket(const int fd) : fd(fd) {
+			int flag = 1;
+			if(setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(flag)) < 0) {
+				std::cerr << "failed to set TCP_NODELAY" << std::endl;
+			}
+		}
 
 		~ClientSocket() {
 			if(close(fd) == -1) {
