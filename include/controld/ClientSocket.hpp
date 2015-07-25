@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <stdexcept>
 #include <netdb.h>
+#include <endian.hpp>
 
 namespace controld {
 	class ClientSocket {
@@ -26,7 +27,13 @@ namespace controld {
 			return c;
 		}
 
-		inline std::string Read(std::size_t numBytes) {
+		inline void Read(char *buffer, const std::size_t numBytes) {
+			for(std::size_t i = 0; i < numBytes; ++i) {
+				buffer[i] = Read();
+			}
+		}
+
+		inline std::string Read(const std::size_t numBytes) {
 			std::string str;
 			str.resize(numBytes);
 			ssize_t bytesRead = read(fd, reinterpret_cast<void *>(&str[0]), numBytes);
@@ -37,4 +44,16 @@ namespace controld {
 			return str;
 		}
 	};
+
+	inline ClientSocket & operator >>(ClientSocket &clientSock, std::uint8_t &i) {
+		i = clientSock.Read();
+		return clientSock;
+	}
+
+	inline ClientSocket & operator >>(ClientSocket &clientSock, std::uint16_t &i) {
+		std::uint16_t n;
+		clientSock.Read(reinterpret_cast<char *>(&n), 2);
+		i = swapbe(n);
+		return clientSock;
+	}
 }

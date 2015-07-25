@@ -47,9 +47,13 @@ namespace controld {
 		os << message.command;
 		switch(message.command) {
 			case Command::SetRed:
-			case Command::SetGreen:
-			case Command::SetBlue:
 				os << ' ' << message.intensity[0];
+				break;
+			case Command::SetGreen:
+				os << ' ' << message.intensity[1];
+				break;
+			case Command::SetBlue:
+				os << ' ' << message.intensity[2];
 				break;
 			case Command::SetAll:
 				os << ' ' << message.intensity[0] << ' ' << message.intensity[1] << ' ' << message.intensity[2];
@@ -61,7 +65,25 @@ namespace controld {
 	}
 
 	inline ClientSocket & operator >>(ClientSocket &clientSock, Message &message) {
-		message.command = static_cast<Command>(clientSock.Read());
+		clientSock >> *reinterpret_cast<uint8_t *>(&message.command);
+		switch(message.command) {
+			case Command::SetRed:
+				clientSock >> message.intensity[0];
+				break;
+			case Command::SetGreen:
+				clientSock >> message.intensity[1];
+				break;
+			case Command::SetBlue:
+				clientSock >> message.intensity[2];
+				break;
+			case Command::SetAll:
+				clientSock >> message.intensity[0];
+				clientSock >> message.intensity[1];
+				clientSock >> message.intensity[2];
+				break;
+			default:
+				break;
+		}
 		return clientSock;
 	}
 }
